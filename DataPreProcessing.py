@@ -12,9 +12,12 @@ FEATURE_STORE = {
     "playlist_uri": [],
 }
 
+csv_path = 'extracted_data/excel'
+csv_files = os.listdir(csv_path)
+
 
 class DataPreProcessing:
-    def __init__(self, path, files):
+    def __init__(self, path=csv_path, files=csv_files):
         self.path = path
         self.files = files
         self.df = None
@@ -23,6 +26,7 @@ class DataPreProcessing:
 
     def process_data(self):
         for file in self.files:
+            print(file)
             self.file_name = file.split('.')[0]
             self.df = pd.read_excel(self.path + '/' + file)
             self.df['Playlist URI'] = label_encoder.fit_transform(self.df['Playlist URI'])
@@ -51,7 +55,8 @@ class DataPreProcessing:
         self.df = self.df.sample(frac=1)
         self.df.to_csv(f'extracted_data/csv/{self.file_name}.csv', mode='w', index=False, header=True)
 
+    def return_data_frame(self):
+        return self.df
 
-path = 'extracted_data/excel'
-files = os.listdir(path)
-DataPreProcessing(path, files)
+
+DataPreProcessing(csv_path, csv_files)

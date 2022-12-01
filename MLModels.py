@@ -1,16 +1,5 @@
 from Importing import *
-
-
-def z_score(x):
-    return (x - x.mean()) / (x.std())
-
-
-def gaussian(x):
-    return np.exp(-pow(x, 2))
-
-
-def minmax(x):
-    return (x - x.min()) / (x.max() - x.min())
+from NormalizationFunctions import z_score, minmax, gaussian
 
 
 def metrics(y_test, y_pred):
@@ -20,32 +9,38 @@ def metrics(y_test, y_pred):
     print(classification_report(y_test, y_pred))
 
 
-FEATURES = ['duration_ms','key', 'loudness', 'tempo']
+FEATURES = ['duration_ms', 'key', 'loudness', 'tempo']
 NORMALIZATION = z_score
 DEGREE = 2
-path = 'extracted_data/csv'
-files = os.listdir(path)
+csv_path = 'extracted_data/csv'
+FILE_NAME = None
+
+
+print(os.listdir(csv_path))
+try:
+    csv_file = os.listdir(csv_path)[int(input("Enter Choice: "))]
+except IndexError as error:
+    print("INDEX OUT OF RANGE")
 
 
 class TrainingData:
-    def __init__(self, path=path, files=files, create_poly=False, normalization=True):
+    def __init__(self, path=csv_path, file=csv_file, create_poly=False, normalization=True):
         (self.X_train, self.X_test), (self.y_train, self.y_test) = (None, None), (None, None)
         self.path = path
-        self.files = files
-        self.file_name = None
+        self.file = file
+        self.file_name = self.file.split('.')[0]
         self.playlist_train = None
         self.model = None
         self.create_poly = create_poly
         self.normalization = normalization
         self.read_file()
-        if normalization:
+        if self.normalization:
             self.normalize_data()
         self.return_data()
 
     def read_file(self):
-        for file in self.files:
-            self.file_name = file.split('.')[0]
-            self.playlist_train = pd.read_csv(f"{self.path}/{self.file_name}.csv")
+        print('\n'+" ".join([word.lower() for word in self.file_name.split('_')])+'\n')
+        self.playlist_train = pd.read_csv(f"{self.path}/{self.file}")
 
     def normalize_data(self):
         for f in FEATURES:
@@ -112,10 +107,18 @@ class NaiveBayesModel(TrainingData):
         self.print_metrics()
 
 
+class MultinomialNaiveBayesModel(TrainingData):
+    def __init__(self, create_poly=False, hidden_layer=None):
+        super().__init__(create_poly=create_poly)
+        self.hidden_layer = hidden_layer
+        self.model = MultinomialNB()
+        self.train_data()
+        self.print_metrics()
+
+
 KNN = KNeighborsModel()
-Logi = LogisticRegressionModel()
+Logi = LogisticRegressionModel(create_poly=True)
 SVC = SVCModel(create_poly=True)
 MLP = MLPModel(hidden_layer=(200, 150, 100, 50))
 NaiveBayes = NaiveBayesModel()
-
-print(NaiveBayes.model.score(NaiveBayes.X_test, NaiveBayes.y_test))
+MultinomialNaiveBayes = MultinomialNaiveBayesModel()
