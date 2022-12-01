@@ -5,12 +5,12 @@ Created on Sat Nov  5 18:03:14 2022
 
 @author: abhik_bhattacharjee
 """
+import os
 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import pandas as pd
 import requests
-
 
 ply_uri = []
 trk_uri = []
@@ -19,8 +19,19 @@ trk_nm = []
 audio_features = []
 audio_analysis = []
 
-playlist_list = ['37i9dQZF1DX5cZuAHLNjGz', '37i9dQZF1DWWQRwui0ExPn', 
-                 '37i9dQZF1DXcF6B6QPhFDv', '37i9dQZF1DX0DxcHtn4Hwo']
+"""
+High tempo = 0uKDBOqgJI0amouaT5JHtN
+Low Tempo = 1xwdBUUBvT3Dp3IRov3EjB
+
+Adrenaline = 37i9dQZF1DXe6bgV3TmZOL
+Jazz = 37i9dQZF1DX52ln8eMkne9
+
+Meme = 7hmKXGvxszjvAynIlRZglO
+Ghazal = 37i9dQZF1DXdsiL9gD4vAA
+
+"""
+
+playlist_list = ['7hmKXGvxszjvAynIlRZglO', '37i9dQZF1DXdsiL9gD4vAA']
 
 cid = "42225bb4f6fe41ac9a3c7f5342e27f91"
 sec_key = "ba991ae9221e41a581fa96b5c827d6d0"
@@ -43,12 +54,12 @@ headers = {
 BASE_URL = 'https://api.spotify.com/v1/'
 
 client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=sec_key)
-sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
+sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-for pl in playlist_list:    
-    #print(pl)
+for pl in playlist_list:
+    # print(pl)
     track_uris = [x["track"]["uri"] for x in sp.playlist_tracks(pl)["items"]]
-    #print(track_uris)
+    # print(track_uris)
     trk_uri.append(track_uris)
 
     for trk in track_uris:
@@ -57,12 +68,14 @@ for pl in playlist_list:
         trk_nm.append(sp.track(trk)["name"])
         audio_features.append(sp.audio_features(trk))
         audio_analysis.append(sp.audio_analysis(trk))
-    
+
 trk_fet = pd.DataFrame(
     {
-     'Playlist URI' : ply_uri,
-     'Track URI' : trk_num, 
-     'Track Name' : trk_nm,
-     'Audio Features' : audio_features,
-     "Audio Analysis" : audio_analysis})
-trk_fet.to_excel("track_features.xlsx")
+        'Playlist URI': ply_uri,
+        'Track URI': trk_num,
+        'Track Name': trk_nm,
+        'Audio Features': audio_features,
+        "Audio Analysis": audio_analysis})
+
+
+trk_fet.to_excel("track_features_Meme_Ghazal.xlsx")
