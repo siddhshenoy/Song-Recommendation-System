@@ -33,4 +33,5 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn.metrics import roc_curve, auc, roc_auc_score
+from sklearn.model_selection import cross_val_score
 from yellowbrick.classifier import ROCAUC
