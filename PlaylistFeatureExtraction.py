@@ -22,8 +22,9 @@ Jazz = 37i9dQZF1DX52ln8eMkne9
 Meme = 7hmKXGvxszjvAynIlRZglO
 Ghazal = 37i9dQZF1DXdsiL9gD4vAA
 
+
 00s Rock Anthem : 37i9dQZF1DX3oM43CtKnRV
-Rock This : 37i9dQZF1DXcF6B6QPhFDv
+Rick This : 37i9dQZF1DXcF6B6QPhFDv
 Chill Vibes : 37i9dQZF1DX889U0CL85jj
 """
 
@@ -32,8 +33,8 @@ CID = "42225bb4f6fe41ac9a3c7f5342e27f91"
 SECRET_KEY = "ba991ae9221e41a581fa96b5c827d6d0"
 AUTH_URL = 'https://accounts.spotify.com/api/token'
 BASE_URL = 'https://api.spotify.com/v1/'
-FILE_NAME = "track_features_Old_Rock_&_New_Rock"
-PLAYLISTS = ['37i9dQZF1DX3oM43CtKnRV', '37i9dQZF1DXcF6B6QPhFDv']
+FILE_NAME = "track_features_Short_Songs_&_Long_Songs"
+PLAYLISTS = ['7hmKXGvxszjvAynIlRZglO', '37i9dQZF1DXdsiL9gD4vAA']
 
 
 class PlaylistFeatureExtraction:

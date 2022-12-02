@@ -11,4 +11,4 @@ path = FeaturePlots.csv_path
 files = FeaturePlots.csv_files
 
 
-FeaturePlots.FeaturePlots(path=path, files=files, y=2, plot3D=True)
+FeaturePlots.FeaturePlots(path=path, files=files, y=0, plot3D=True)

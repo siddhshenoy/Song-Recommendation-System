@@ -2,7 +2,7 @@ from Importing import *
 from NormalizationFunctions import z_score, minmax, gaussian
 
 FEATURES = ['duration_ms', 'key', 'loudness', 'tempo']
-NORMALIZATION = minmax
+NORMALIZATION = z_score
 
 
 def normalize_data(data):
@@ -20,8 +20,8 @@ def create_3D_plot(playlist_train):
     ax.view_init(elev=20, azim=-100)
     fig.add_axes(ax)
 
-    # for f in FEATURES:
-    #     playlist_train[f] = NORMALIZATION(playlist_train[f])
+    for f in FEATURES:
+        playlist_train[f] = NORMALIZATION(playlist_train[f])
 
     # plot
     sc = ax.scatter(playlist_train['duration_ms'], playlist_train['tempo'], playlist_train['loudness'],
